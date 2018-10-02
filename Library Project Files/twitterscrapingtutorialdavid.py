@@ -13,10 +13,10 @@ class FetchData():
     #function to fetch tweets with a *query* parameter
     def fetch_tweets_with_query(self, query):
         # Variables that contains the user credentials to access Twitter API 
-        ACCESS_TOKEN = '346405797-yIRl0BHr3SEvBW8ja6fRlN2p7XJv9DCRSrShclGA'
-        ACCESS_SECRET = 'ax8x4w5aopu0ZAAKXHmn9zEMxC8sG19BuofsjPn1DVY74'
-        CONSUMER_KEY = 'UafPo1gqvLpw2em1cphULp7IQ'
-        CONSUMER_SECRET = 'ADIB301lfFrirb61O8Yxk3KqyRNGj3RVOsi2KYvv574WKe9eE5'
+        ACCESS_TOKEN = 'access token'
+        ACCESS_SECRET = 'access secret'
+        CONSUMER_KEY = 'consumer key'
+        CONSUMER_SECRET = 'consumer secret'
        
         oauth = OAuth(ACCESS_TOKEN, ACCESS_SECRET, CONSUMER_KEY, CONSUMER_SECRET)
 
