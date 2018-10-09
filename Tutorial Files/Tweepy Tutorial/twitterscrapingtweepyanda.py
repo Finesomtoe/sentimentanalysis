@@ -12,10 +12,10 @@ class TwitterClient(object):
         Class constructor or initialization method. 
         '''
         # keys and tokens from the Twitter Dev Console 
-        consumer_key = 'consumer key'
-        consumer_secret = 'consumer secret'
-        access_token = 'access token'
-        access_token_secret = 'access secret'
+        consumer_key = 'K709NnBB1ZNxI0HASOkxb8vfI'
+        consumer_secret = '7pVoyn4fMnbgJP0QDPeGo2aj1719D1bOogBWfuAurjNNl8E4MT'
+        access_token = '1036999904877531136-1dN8kpEgNWt2uJqSU2cCTppIn8YKnC'
+        access_token_secret = 'deUKZNORxOyc7M4ibXUkcQdEKObzRHICzVG58CtqHOZQr'
   
         # attempt authentication 
         try: 
@@ -50,7 +50,7 @@ class TwitterClient(object):
         else: 
             return 'negative'
   
-    def get_tweets(self, query, count = 10): 
+    def get_tweets(self, query, count = 1000): 
         ''' 
         Main function to fetch tweets and parse them. 
         '''
@@ -68,6 +68,7 @@ class TwitterClient(object):
   
                 # saving text of tweet 
                 parsed_tweet['text'] = tweet.text 
+                parsed_tweet['user'] = tweet.user.name
                 # saving sentiment of tweet 
                 parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet.text) 
   
@@ -90,7 +91,7 @@ def main():
     # creating object of TwitterClient Class 
     api = TwitterClient() 
     # calling function to get tweets 
-    tweets = api.get_tweets(query = 'Buhari', count = 20) 
+    tweets = api.get_tweets(query = 'Buhari', count = 1000) 
   
     # picking positive tweets from tweets 
     ptweets = [tweet for tweet in tweets if tweet['sentiment'] == 'positive'] 
@@ -107,11 +108,13 @@ def main():
     print("\n\nPositive tweets:") 
     for tweet in ptweets[:10]: 
         print(tweet['text']) 
+        print(tweet['user'])
   
     # printing first 5 negative tweets 
     print("\n\nNegative tweets:") 
     for tweet in ntweets[:10]: 
-        print(tweet['text']) 
+        print(tweet['text'])
+        print(tweet['user'])
   
 if __name__ == "__main__": 
     # calling main function 
