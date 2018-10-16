@@ -30,6 +30,7 @@ if __name__ == '__main__':
     for item in labels[798198:1198198]:
         y.append(item)
 
+    targets = [0, 4]
    
 
     #Split the dataset into train and test
@@ -45,12 +46,9 @@ if __name__ == '__main__':
     print("Accuracy Training" + str(logreg.evaluate(input_train, label_train)))
     print("Accuracy Test" + str(logreg.evaluate(input_test, label_test)))
     print(logreg.getMetrics(input_test, label_test))
-    logreg.printConfusion(input_test, label_test, labels)
-    #print(lm.classify(['Today’s Top Supply Chain and Logistics News From WSJ']))
-    #print(lm.classify(['Facebook Users Were Unwitting Targets of Russia-Backed Scheme']))
-    #print(lm.classify(['Explaining Health Insurance Cost-Sharing Reductions']))
-    #print(lm.classify(["Nelly's Rape Accuser Says She Will NOT Testify, Wants to Drop the Case"]))
-    #print(lm.classify(["Beyonce and Jay-z are expecting twins"]))
-    #print(lm.classify(["Twitter extends its character limit to 240 words"]))
-    #print(lm.classify(["Ebola virus strikes again in the West"]))
-    #print(lm.classify(["The advancement of cancer research brings joy to the scientific world"]))
+    logreg.printConfusion(input_test, label_test, targets)
+    print (logreg.classify(['Atiku is a terrible candidate']))
+    print (logreg.classify(['Buhari is a callous, terrible candidate']))
+    print (logreg.classify(['Atiku is a good candidate']))
+    print (logreg.classify(['Buhari is a wonderful candidate']))
+  
