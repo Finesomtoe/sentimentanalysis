@@ -5,6 +5,16 @@ import pandas as pd
 
 class Model(object):
     
+    def count_label_occurences(self, targets):
+        dummies = pd.get_dummies(targets, prefix_sep='_')
+        cat_dict = dict()
+        for col in dummies.columns:
+            count = 0
+            for row in dummies[col]:
+                count += row
+            cat_dict[col] = count
+        return cat_dict
+
     def getMetrics(self, inputs, targets):
         return classification_report(targets, self.classify(inputs))
     
