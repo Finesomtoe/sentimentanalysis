@@ -19,29 +19,29 @@ if __name__ == '__main__':
 
     inputs, labels = df.text.tolist(), df.target.tolist()
 
-    X = []
-    y = []
-    for item in inputs[:400000]:
-        X.append(item)
-    for item in inputs[798198:1198198]:
-        X.append(item)
-    for item in labels[:400000]:
-        y.append(item)
-    for item in labels[798198:1198198]:
-        y.append(item)
+    #X = []
+    #y = []
+    #for item in inputs[:400000]:
+    #    X.append(item)
+    #for item in inputs[798198:1198198]:
+    #    X.append(item)
+    #for item in labels[:400000]:
+    #    y.append(item)
+    #for item in labels[798198:1198198]:
+    #    y.append(item)
 
     targets = [0, 4]
    
 
     #Split the dataset into train and test
-    input_train, input_test, label_train, label_test = train_test_split(X, y, test_size=.03, shuffle=True)
+    input_train, input_test, label_train, label_test = train_test_split(inputs, labels, test_size=.04, random_state=42, shuffle=True)
 
     logreg = LogisticRegression(inputs)
     logreg.train(input_train, label_train)
     output = logreg.classify(input_test)
    
 
-    print(logreg.count_label_occurences(y))
+    print(logreg.count_label_occurences(labels))
     ##lm.parameter_tuning(training, l_training)
     print("Accuracy Training" + str(logreg.evaluate(input_train, label_train)))
     print("Accuracy Test" + str(logreg.evaluate(input_test, label_test)))
