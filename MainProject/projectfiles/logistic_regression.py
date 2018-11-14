@@ -4,15 +4,16 @@ from sklearn.linear_model import LogisticRegression, LogisticRegressionCV
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score  
+from sklearn.pipeline import make_pipeline
 
 class LogisticRegression(Model):
 
     def __init__(self, data):
         self.__data = data
         self.__stopwords = set(stopwords.words('english'))
-        self.__bigram_vectorizer = TfidfVectorizer(ngram_range=(1,3), analyzer='word')
+        self.__bigram_vectorizer = TfidfVectorizer(ngram_range=(1,3), analyzer='word', min_df=10)
         self.__bigrams = self.__bigram_vectorizer.fit_transform(self.__data)
-        print (self.__bigrams.shape)
+        #print (self.__bigram_vectorizer.vocabulary_)
 
 
     def train(self, inputs, labels, **options):
