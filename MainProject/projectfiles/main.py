@@ -8,9 +8,10 @@ import os
 from sklearn.utils import shuffle
 from sklearn.metrics import accuracy_score
 
+
 if __name__ == '__main__':
     os.chdir('C:\\Users\\Enendu\\Documents\\GitHub\\sentimentanalysis\\MainProject\\projectfiles')
-    filename = 'clean_tweet.csv'
+    filename = 'final_dataset.csv'
     df = pd.read_csv(filename)
 
     df.dropna(inplace=True)
@@ -19,11 +20,14 @@ if __name__ == '__main__':
 
     inputs, labels = df.text.tolist(), df.target.tolist()
 
+    finalinputs = inputs[:300000] + inputs[800001:1100001]
+    finallabels = labels[:300000] + labels[800001:1100001]
+
     targets = [0, 4]
    
 
     #Split the dataset into train and test
-    input_train, input_test, label_train, label_test = train_test_split(inputs, labels, test_size=.04, random_state=42, shuffle=True)
+    input_train, input_test, label_train, label_test = train_test_split(finalinputs, finallabels, test_size=0.25, random_state=42, shuffle=True)
 
     def train_naivebayes(inputs, input_train, input_test, label_train, label_test, targets):
         nb = NaiveBayes(inputs)
@@ -45,8 +49,12 @@ if __name__ == '__main__':
         print("Accuracy Test" + str(logreg.evaluate(input_test, label_test)))
         print(logreg.getMetrics(input_test, label_test))
         logreg.printConfusion(input_test, label_test, targets)
+        #logreg.weightmapping()
         print (logreg.classify(['Atiku is a terrible candidate']))
         print (logreg.classify(['Buhari is a callous, terrible candidate']))
         print (logreg.classify(['Atiku is a good candidate']))
         print (logreg.classify(['Buhari is a wonderful candidate']))
+        logreg.plotROC(input_test, label_test)
+        
   
+    
