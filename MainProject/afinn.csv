@@ -104,10 +104,12 @@ alarmed,-2
 alarmist,-2
 alarmists,-2
 alas,-1
+albeit,-1
 alert,-1
 alienation,-2
 alive,1
 allergic,-2
+allergies,-2
 allow,1
 alone,-2
 amaze,2
@@ -328,12 +330,17 @@ bullied,-2
 bullshit,-4
 bully,-2
 bullying,-2
-bummer,-2
+bummed,-3
+bummer,-3
 buoyant,2
 burden,-2
 burdened,-2
 burdening,-2
 burdens,-2
+burn,-2
+burnt,-2
+burning,-2
+but,-2
 calm,2
 calmed,2
 calming,2
@@ -344,6 +351,7 @@ cancelled,-1
 cancelling,-1
 cancels,-1
 cancer,-1
+cant,-2
 capable,1
 captivated,3
 care,2
@@ -516,6 +524,7 @@ crazier,-2
 craziest,-2
 crazy,-2
 creative,2
+creepy,-4
 crestfallen,-2
 cried,-2
 cries,-2
@@ -1124,6 +1133,7 @@ guilty,-3
 gullibility,-2
 gullible,-2
 gun,-1
+gutted,-3
 ha,2
 hacked,-1
 haha,3
@@ -1252,6 +1262,7 @@ impose,-1
 imposed,-1
 imposes,-1
 imposing,-1
+impossible,-3
 impotent,-2
 impress,3
 impressed,3
@@ -1419,6 +1430,7 @@ lawsuits,-2
 lazy,-1
 leak,-1
 leaked,-1
+least,-2
 leave,-1
 legal,1
 legally,1
@@ -1511,6 +1523,7 @@ merry,3
 mess,-2
 messed,-2
 methodical,2
+migraine,-4
 mindless,-2
 miracle,4
 mirth,3
@@ -1593,11 +1606,13 @@ neglects,-2
 nerves,-1
 nervous,-2
 nervously,-2
+never,-4
 nice,3
 nifty,2
 niggas,-5
 nigger,-5
 no,-1
+not,-2
 noble,2
 noisy,-1
 nonsense,-2
@@ -1939,6 +1954,7 @@ sad,-2
 sadden,-2
 saddened,-2
 sadly,-2
+sadness,-2
 safe,1
 safely,1
 safety,1
@@ -2020,6 +2036,8 @@ sincerest,2
 sincerity,2
 sinful,-3
 singleminded,-2
+sink,-2
+sinking,-3
 skeptic,-2
 skeptical,-2
 skepticism,-2
@@ -2039,6 +2057,8 @@ slut,-5
 smart,1
 smarter,2
 smartest,2
+smash,-2
+smashed,-2
 smear,-2
 smile,2
 smiled,2
@@ -2214,6 +2234,7 @@ thank,2
 thankful,2
 thanks,2
 thorny,-2
+though,-1
 thoughtful,2
 thoughtless,-2
 threat,-2
@@ -2230,6 +2251,7 @@ thwarts,-2
 timid,-2
 timorous,-2
 tired,-2
+tiring,-2
 tits,-2
 tolerant,2
 toothless,-2
@@ -2267,7 +2289,7 @@ triumphant,4
 trouble,-2
 troubled,-2
 troubles,-2
-TRUE,2
+true ,2
 trust,1
 trusted,2
 tumor,-2
@@ -2305,6 +2327,8 @@ unequaled,2
 unethical,-2
 unfair,-2
 unfocused,-2
+unfortunate,-3
+unfortunately,-3
 unfulfilled,-2
 unhappy,-2
 unhealthy,-2

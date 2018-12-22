@@ -15,14 +15,14 @@ class Model(object):
             cat_dict[col] = count
         return cat_dict
 
-    def getMetrics(self, inputs, targets):
-        return classification_report(targets, self.classify(inputs))
+    def getMetrics(self, inputs, targets, vectorizer):
+        return classification_report(targets, self.classify(inputs, vectorizer))
     
-    def printConfusion(self, inputs, targets, labels=None):
+    def printConfusion(self, inputs, targets,  vectorizer, labels=None):
         if labels is None:
-            conf = confusion_matrix(targets, self.classify(inputs))
+            conf = confusion_matrix(targets, self.classify(inputs, vectorizer))
         else:
-            conf = confusion_matrix(targets, self.classify(inputs), labels=labels)
+            conf = confusion_matrix(targets, self.classify(inputs, vectorizer), labels=labels)
             print(labels)
         print(conf)
     

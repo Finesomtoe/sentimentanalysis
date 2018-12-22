@@ -18,52 +18,74 @@ from sklearn.metrics import f1_score
 import lime
 from lime import lime_text
 from lime.lime_text import LimeTextExplainer
+from sklearn.svm import LinearSVC, SVC
 
 
 class LogisticRegression(Model):
 
     def __init__(self, data):
         self.__data = data
-        self.__stopwords = set(stopwords.words('english'))
-        self.__bigram_vectorizer = TfidfVectorizer(ngram_range=(1,2), analyzer='word', min_df=10)
-        self.__bigrams = self.__bigram_vectorizer.fit_transform(self.__data)
+        #self.__stopwords = set(stopwords.words('english'))
+        #self.__bigram_vectorizer = TfidfVectorizer(ngram_range=(1,4), analyzer='word', min_df=10)
+        #self.__bigrams = self.__bigram_vectorizer.fit_transform(self.__data)
         #print(list(self.__bigram_vectorizer.get_feature_names))
 
 
-    def train(self, inputs, labels, **options):
-        C_values = [0.1, 1., 2.78, 100.]
-        self.__label_encoder = LabelEncoder()
+    def train(self, vectorizer, inputs, labels, **options):
+        C_values = [1.99, 2.0, 2.05, 2.1, 2.2, 2.3, 2.78]
+        self.__label_encoder = LabelEncoder() 
         self.__train_labels = self.__label_encoder.fit_transform(labels)
-        X = self.__bigram_vectorizer.transform(inputs)
-        self.__model = LogisticRegressionCV(Cs=C_values, cv=5, solver='lbfgs', max_iter=1000, multi_class='auto',n_jobs=6, refit=True).fit(X, self.__train_labels)
+        #X = self.__bigram_vectorizer.transform(inputs)
+        self.__model = LogisticRegressionCV(Cs=C_values, cv=5, solver='liblinear', max_iter=3000, multi_class='ovr',n_jobs=6, refit=True).fit(inputs, self.__train_labels)
+        #self.__model = LinearSVC(max_iter=2000).fit(inputs, self.__train_labels)
+        #clf = grid_search.GridSearchCV(model, parameters, n_jobs=n_jobs, cv=3)
+        #clf.fit(train_data, train_labels)
+        #lin_svm_test = clf.score(test_data, test_labels)
         print('Best C parameters: ' + str(self.__model.C_))
         print(self.__model.coef_)  
+        score = self.__model.score(inputs, labels)
+        print(score)
+        feature_to_coef = {
+            word: coef for word, coef in zip(
+                vectorizer.get_feature_names(), self.__model.coef_[0]
+            )
+        }
+        for best_positive in sorted(
+            feature_to_coef.items(), 
+            key=lambda x: x[1], 
+            reverse=True)[:50]:
+            print (best_positive)
+
+        for best_negative in sorted(
+            feature_to_coef.items(), 
+            key=lambda x: x[1])[:20]:
+            print (best_negative)
+
         #self.plot_learning_curve(self.__model, "Learning Curves", X, self.__train_labels, cv= 5, n_jobs = 6)
                
 
-    def classify(self, inputs):
+    def classify(self, inputs, vectorizer):
         idx = 1
         #explainer = LimeTextExplainer(class_names=targets)
-        X = self.__bigram_vectorizer.transform(inputs)
-        print(X.shape)
-        prediction = self.__model.predict(X)
-        eli5.explain_weights(self.__model, vec=self.__bigram_vectorizer, top=10)
+        #X = self.__bigram_vectorizer.transform(inputs)
+        #print(X.shape)
+        prediction = self.__model.predict(inputs)
+        eli5.explain_weights(self.__model, vec=vectorizer, top=10)
         #print(f1_score(labels, prediction, average='micro'))
-        myarray = np.asarray(inputs)
-        myinputs = myarray.reshape(-1, 1)
-        print(type(myinputs[idx]))
-        print(self.__model.predict_proba(X[0]))
+        #myarray = np.asarray(inputs)
+        #myinputs = myarray.reshape(-1, 1)
+        #print(type(myinputs[idx]))
+        #print(self.__model.predict_proba(X[0]))
         #exp = explainer.explain_instance(str(myinputs[idx]), self.__model.predict_proba, num_features=6)
-        print('Document id: %d' % idx)
+        #print('Document id: %d' % idx)
         #print('Probability(christian) =', self.__model.predict_proba([myinputs[idx]])[0,1])
         #print('True class: %s' % targets[labels[idx]])
         return self.__label_encoder.inverse_transform(prediction)
     
 
     def plotROC(self, input_test, label_test):
-        inputss = input_test.reshape(-1, 1)
-        logit_roc_auc = roc_auc_score(label_test, self.__model.predict(inputss))
-        fpr, tpr, thresholds = roc_curve(label_test, self.__model.predict_proba(inputss)[:,1])
+        logit_roc_auc = roc_auc_score(label_test, self.__model.predict(input_test))
+        fpr, tpr, thresholds = roc_curve(label_test, self.__model.predict_proba(input_test)[:,1])
         plt.figure()
         plt.plot(fpr, tpr, label='Logistic Regression (area = %0.2f)' % logit_roc_auc)
         plt.plot([0, 1], [0, 1],'r--')
@@ -76,8 +98,8 @@ class LogisticRegression(Model):
         #plt.savefig('Log_ROC')
         plt.show()
 
-    def evaluate(self, inputs, labels):
-        predicted = self.classify(inputs)
+    def evaluate(self, inputs, labels, vectorizer):
+        predicted = self.classify(inputs, vectorizer)
         return accuracy_score(labels, predicted)
     
     def plot_learning_curve(self, estimator, title, X, y, ylim=None, cv=None,
