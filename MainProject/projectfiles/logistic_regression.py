@@ -25,29 +25,29 @@ class LogisticRegression(Model):
 
     def __init__(self, data):
         self.__data = data
-        #self.__stopwords = set(stopwords.words('english'))
-        #self.__bigram_vectorizer = TfidfVectorizer(ngram_range=(1,4), analyzer='word', min_df=10)
-        #self.__bigrams = self.__bigram_vectorizer.fit_transform(self.__data)
+        self.__stopwords = set(stopwords.words('english'))
+        self.__bigram_vectorizer = TfidfVectorizer(ngram_range=(1,4), analyzer='word', min_df=5, norm='l1', max_df=200000)
+        self.__bigrams = self.__bigram_vectorizer.fit_transform(self.__data)
         #print(list(self.__bigram_vectorizer.get_feature_names))
 
 
-    def train(self, vectorizer, inputs, labels, **options):
+    def train(self, inputs, labels, **options):
         C_values = [1.99, 2.0, 2.05, 2.1, 2.2, 2.3, 2.78]
         self.__label_encoder = LabelEncoder() 
         self.__train_labels = self.__label_encoder.fit_transform(labels)
-        #X = self.__bigram_vectorizer.transform(inputs)
-        self.__model = LogisticRegressionCV(Cs=C_values, cv=5, solver='liblinear', max_iter=3000, multi_class='ovr',n_jobs=6, refit=True).fit(inputs, self.__train_labels)
+        X = self.__bigram_vectorizer.transform(inputs)
+        self.__model = LogisticRegressionCV(Cs=C_values, cv=5, solver='liblinear', max_iter=3000, multi_class='ovr',n_jobs=6, refit=True).fit(X, self.__train_labels)
         #self.__model = LinearSVC(max_iter=2000).fit(inputs, self.__train_labels)
         #clf = grid_search.GridSearchCV(model, parameters, n_jobs=n_jobs, cv=3)
         #clf.fit(train_data, train_labels)
         #lin_svm_test = clf.score(test_data, test_labels)
         print('Best C parameters: ' + str(self.__model.C_))
         print(self.__model.coef_)  
-        score = self.__model.score(inputs, labels)
-        print(score)
+        #score = self.__model.score(X, labels)
+        #print(score)
         feature_to_coef = {
             word: coef for word, coef in zip(
-                vectorizer.get_feature_names(), self.__model.coef_[0]
+                self.__bigram_vectorizer.get_feature_names(), self.__model.coef_[0]
             )
         }
         for best_positive in sorted(
@@ -64,13 +64,13 @@ class LogisticRegression(Model):
         #self.plot_learning_curve(self.__model, "Learning Curves", X, self.__train_labels, cv= 5, n_jobs = 6)
                
 
-    def classify(self, inputs, vectorizer):
+    def classify(self, inputs):
         idx = 1
         #explainer = LimeTextExplainer(class_names=targets)
-        #X = self.__bigram_vectorizer.transform(inputs)
+        X = self.__bigram_vectorizer.transform(inputs)
         #print(X.shape)
-        prediction = self.__model.predict(inputs)
-        eli5.explain_weights(self.__model, vec=vectorizer, top=10)
+        prediction = self.__model.predict(X)
+        #eli5.explain_weights(self.__model, vec=vectorizer, top=10)
         #print(f1_score(labels, prediction, average='micro'))
         #myarray = np.asarray(inputs)
         #myinputs = myarray.reshape(-1, 1)
@@ -98,8 +98,8 @@ class LogisticRegression(Model):
         #plt.savefig('Log_ROC')
         plt.show()
 
-    def evaluate(self, inputs, labels, vectorizer):
-        predicted = self.classify(inputs, vectorizer)
+    def evaluate(self, inputs, labels):
+        predicted = self.classify(inputs)
         return accuracy_score(labels, predicted)
     
     def plot_learning_curve(self, estimator, title, X, y, ylim=None, cv=None,

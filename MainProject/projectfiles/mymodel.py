@@ -1,4 +1,4 @@
-from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 from sklearn.externals import joblib
 import pandas as pd
 
@@ -15,14 +15,17 @@ class Model(object):
             cat_dict[col] = count
         return cat_dict
 
-    def getMetrics(self, inputs, targets, vectorizer):
-        return classification_report(targets, self.classify(inputs, vectorizer))
+    def getScore(self, inputs, targets):
+        return accuracy_score(targets, self.classify(inputs))
+
+    def getMetrics(self, inputs, targets):
+        return classification_report(targets, self.classify(inputs))
     
     def printConfusion(self, inputs, targets,  vectorizer, labels=None):
         if labels is None:
-            conf = confusion_matrix(targets, self.classify(inputs, vectorizer))
+            conf = confusion_matrix(targets, self.classify(inputs))
         else:
-            conf = confusion_matrix(targets, self.classify(inputs, vectorizer), labels=labels)
+            conf = confusion_matrix(targets, self.classify(inputs), labels=labels)
             print(labels)
         print(conf)
     
