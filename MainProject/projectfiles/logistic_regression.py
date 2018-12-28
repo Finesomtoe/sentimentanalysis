@@ -26,7 +26,7 @@ class LogisticRegression(Model):
     def __init__(self, data):
         self.__data = data
         self.__stopwords = set(stopwords.words('english'))
-        self.__bigram_vectorizer = TfidfVectorizer(ngram_range=(1,4), analyzer='word', min_df=50, norm='l1', max_df=200000)
+        self.__bigram_vectorizer = TfidfVectorizer(ngram_range=(1,4), analyzer='word', min_df=10)
         self.__bigrams = self.__bigram_vectorizer.fit_transform(self.__data)
         #print(list(self.__bigram_vectorizer.get_feature_names))
 
