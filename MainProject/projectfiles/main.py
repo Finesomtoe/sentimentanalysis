@@ -125,6 +125,7 @@ if __name__ == '__main__':
         mydf['text'] = testset
         mydf['scorelist'] = scorelist
         mydf['sentimentprediction'] = resultlist
+        mydf.to_csv('testresult.csv', index=False, encoding='latin-1')
         
   
 results = []
