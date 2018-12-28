@@ -2,6 +2,9 @@
 import json
 # Import the necessary methods from "twitter" library
 from twitter import Twitter, OAuth, TwitterHTTPError, TwitterStream
+import tweepy
+import csv
+import pandas as pd
 
 #class to fetch stream of tweets from twitter
 class FetchData():
