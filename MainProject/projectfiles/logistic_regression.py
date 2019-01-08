@@ -19,6 +19,7 @@ import lime
 from lime import lime_text
 from lime.lime_text import LimeTextExplainer
 from sklearn.svm import LinearSVC, SVC
+import pickle
 
 
 class LogisticRegression(Model):
@@ -37,6 +38,8 @@ class LogisticRegression(Model):
         self.__train_labels = self.__label_encoder.fit_transform(labels)
         X = self.__bigram_vectorizer.transform(inputs)
         self.__model = LogisticRegressionCV(Cs=C_values, cv=5, solver='liblinear', max_iter=3000, multi_class='ovr',n_jobs=6, refit=True).fit(X, self.__train_labels)
+        filename = 'finalized_model.sav'
+        pickle.dump(self.__model, open(filename, 'wb'))
         #self.__model = LinearSVC(max_iter=2000).fit(inputs, self.__train_labels)
         #clf = grid_search.GridSearchCV(model, parameters, n_jobs=n_jobs, cv=3)
         #clf.fit(train_data, train_labels)
