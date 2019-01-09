@@ -30,6 +30,7 @@ if __name__ == '__main__':
     os.chdir('C:\\Users\\Enendu\\Documents\\GitHub\\sentimentanalysis\\MainProject\\projectfiles')
     filename = 'filtered_dataset1.csv'
     df = pd.read_csv(filename)
+    date = datetime.datetime.now().strftime("%Y%m%d")
 
     #get the crawled tweets to clean and process it. Change to buharitweets.csv if running file for buhari
     filename2 = 'atikutweets20190108.csv'
@@ -160,7 +161,7 @@ if __name__ == '__main__':
         mydf['text'] = tweetset
         mydf['scorelist'] = scorelist
         mydf['sentimentprediction'] = resultlist
-        mydf.to_csv(query+'results.csv', index=False, encoding='latin-1')
+        mydf.to_csv(query+'results'+date+'.csv', index=False, encoding='latin-1')
         
   
 results = []
