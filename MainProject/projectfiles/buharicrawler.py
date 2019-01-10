@@ -22,7 +22,7 @@ with open('buharitweets'+date+'.csv', mode='w', encoding='utf-8') as csvFile:
 
     csvWriter.writerow(['Date', 'Text', 'Username', 'Location'])
     for tweet in tweepy.Cursor(api.search,q="buhari -atiku",
-                               lang="en", tweet_mode='extended', since='2019-01-07').items(5000):
+                               lang="en", count=50, tweet_mode='extended', since='2019-01-10').items():
         if 'retweeted_status' not in dir(tweet):
             if not tweet.entities['urls']:
                 csvWriter.writerow([tweet.created_at, tweet.full_text, tweet.user.screen_name, tweet.user.location]) 
