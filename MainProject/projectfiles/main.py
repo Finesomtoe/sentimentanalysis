@@ -22,6 +22,7 @@ from scipy.sparse import hstack
 from sklearn.preprocessing import MinMaxScaler
 from sentimental import Sentimental
 import pickle
+import datetime
 
 
 
@@ -33,7 +34,7 @@ if __name__ == '__main__':
     date = datetime.datetime.now().strftime("%Y%m%d")
 
     #get the crawled tweets to clean and process it. Change to buharitweets.csv if running file for buhari
-    filename2 = 'atikutweets20190108.csv'
+    filename2 = 'atikutweets20190110.csv'
     df2 = pd.read_csv(filename2)
     pat1 = r'@[A-Za-z0-9_]+'
     pat2 = r'https?://[^ ]+'
@@ -95,7 +96,7 @@ if __name__ == '__main__':
     input_train, input_test, label_train, label_test = train_test_split(inputs, labels, test_size=0.3, shuffle=True)
 
     #run this line only after model has been saved 
-    #label_encoder.fit_transform(label_train)
+    label_encoder.fit_transform(label_train)
 
     #run this method only the first time of running this file
     def train(vectorizer, label_encoder, inputtrain, labeltrain, inputtest, labeltest, **options):        
@@ -193,5 +194,5 @@ for r in results:
         scorelist.append(sentence_sentiment['score'])
 
 #comment out train function after first run
-train(vectorizer, label_encoder, input_train, label_train, input_test, label_test)
+#train(vectorizer, label_encoder, input_train, label_train, input_test, label_test)
 predict_tweets(tweetset, scorelist, lastdf, vectorizer, label_encoder, query)
